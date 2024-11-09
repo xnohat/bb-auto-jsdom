@@ -54,6 +54,8 @@ For import library from CDN, you can use the following code:
 ```
 await _require("https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js")
 console.log(_.chunk(['a', 'b', 'c', 'd'], 2));
+const response = await fetch('https://api.ipify.org?format=json');
+const data = await response.json();
 //await new Promise(resolve => setTimeout(resolve, 10000));
-return "Done";
+return data;
 ```
