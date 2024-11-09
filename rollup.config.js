@@ -9,6 +9,7 @@ import fs from "fs"
 import pkg from "./package.json"
 import crypto from "crypto"
 import { validate } from "@budibase/backend-core/plugins"
+import replace from '@rollup/plugin-replace';
 
 const iconFile = "icon.svg"
 const iconExists = fs.existsSync(iconFile)
@@ -110,6 +111,36 @@ export default {
       include: ['node_modules/**', 'jsdom.js']
     }),
     json(),
+    replace({
+      preventAssignment: true,
+      // Inject performance polyfill at the start of bundle
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      delimiters: ['', ''],
+      // Add performance polyfill before the rest of the code
+      [`function installOwnProperties`]: `
+        var globalScope = typeof window !== 'undefined' ? window : 
+                         typeof global !== 'undefined' ? global :
+                         typeof self !== 'undefined' ? self : {};
+        
+        if (typeof performance === 'undefined') {
+          var performance = {
+            now: () => Date.now(),
+            mark: () => {},
+            measure: () => {},
+            getEntriesByName: () => [],
+            getEntriesByType: () => [],
+            clearMarks: () => {},
+            clearMeasures: () => {}
+          };
+          
+          globalScope.performance = performance;
+          
+          if (typeof window !== 'undefined') window.performance = performance;
+          if (typeof global !== 'undefined') global.performance = performance;
+          if (typeof self !== 'undefined') self.performance = performance;
+        }
+        function installOwnProperties`
+    }),
     //terser(),
     copy({
       assets,
