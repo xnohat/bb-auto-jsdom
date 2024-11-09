@@ -47,6 +47,18 @@ in
 ```
 node_modules\jsdom\lib\jsdom\living\xhr\XMLHttpRequest-impl.js
 ```
+and find
+```
+this[filesSymbol] ||= FileList.createImpl(this._globalObject);
+```
+replace with
+```
+this[filesSymbol] = FileList.createImpl(this._globalObject);
+```
+in
+```
+node_modules\jsdom\lib\jsdom\living\nodes\HTMLInputElement-impl.js
+```
 
 ## Usage
 
