@@ -1,0 +1,40 @@
+{
+  "type": "automation",
+  "metadata": {},
+  "schema": {
+    "name": "bb-auto-jsdom",
+    "tagline": "bb workerbot studio automation plugin of run js in jsdom browser simulator",
+    "icon": "Actions",
+    "description": "bb workerbot studio automation plugin of run js in jsdom browser simulator",
+    "type": "action",
+    "stepId": "bb-auto-jsdom",
+    "inputs": {
+      "code": ""
+    },
+    "schema": {
+      "inputs": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "customType": "code",
+            "title": "code"
+          }
+        },
+        "required": ["code"]
+      },
+      "outputs": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the action was successful"
+          },
+          "value": {
+            "type": "string",
+            "description": "What was output value"
+          }
+        },
+        "required": ["success", "value"]
+      }
+    }
+  }
+}
